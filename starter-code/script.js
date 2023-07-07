@@ -5,7 +5,21 @@ const themeText = document.querySelector(".theme-text");
 const cards = document.querySelectorAll(".card");
 const input = document.querySelector("#user");
 const button = document.querySelector(".btn");
-
+const stats = document.querySelector(".stats");
+const avatarMobile = document.querySelector(".avatar-mobile"); 
+const avatarDesktop = document.querySelector(".avatar-desktop");
+const nameElement = document.querySelector(".name");
+const login = document.querySelector(".login");
+const joinDate = document.querySelector(".join-date");
+const bio = document.querySelector(".bio");
+const repos = document.querySelector("#repos");
+const followers = document.querySelector("#followers");
+const following = document.querySelector("#following");
+const city = document.querySelector("#city");
+const blog = document.querySelector("#blog");
+const twitter = document.querySelector("#twitter");
+const company = document.querySelector("#company");
+const errorElement = document.querySelector(".error");
 
 const octocat = {
     avatar_url: "https://avatars.githubusercontent.com/u/583231?v=4",
@@ -40,7 +54,59 @@ const octocat = {
     type: "User",
     updated_at: "2023-06-22T11:15:59Z",
     url: "https://api.github.com/users/octocat",
+};
+
+input.addEventListener("input", () => {
+    errorElement.textContent = "";
+})
+
+const dateTransformer = (date) => {
+    const dateObj = new Date (date);
+    const dateString = dateObj.toDateString();
+    const [weekday, month, day, year] = dateString.split(" ");
+    return `${day} ${month} ${year}`;
 }
+
+const displayInfo = (user) => {
+    avatarMobile.src = user.avatar_url;
+    avatarDesktop.src = user.avatar_url;
+    nameElement.textContent = user.name;
+    login.textContent = "@" + user.login; 
+    const date = dateTransformer(user.created_at);
+    joinDate.textContent = "Joined " + date;
+    bio.textContent = user.bio || "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.";
+    repos.textContent = user.public_repos;
+    followers.textContent = user.followers;
+    following.textContent = user.following;
+    if(user.location) {
+        city.textContent = user.location;
+    } else {
+        city.textContent = "Not Available";
+        city.parentElement.style.opacity = 0.5;
+    }
+    if(user.twitter_username) {
+        twitter.textContent = twitter_username;
+    } else {
+        twitter.textContent = "Not Available";
+        twitter.parentElement.style.opacity = 0.5;
+    }
+    if(user.blog) {
+        blog.textContent = user.blog;
+        blog.href = user.blog;
+    } else {
+        blog.textContent = "Not Available";
+        blog.href = "#";
+        blog.parentElement.style.opacity = 0.5;
+    }
+    if(user.company) {
+        company.textContent = user.company;
+    } else {
+        company.textContent = "Not Available";
+        company.parentElement.style.opacity = 0.5;
+    }
+}
+
+displayInfo(octocat);
 
 const flipTheme = (theme) => {
     if(theme === "dark") {
@@ -68,10 +134,11 @@ button.addEventListener("click", async (event) => {
             "https://api.github.com/users/" + input.value
         );
         const user = response.data;
+        displayInfo(user);
         input.value = "";
-        console.log(user);
     } catch (error) {
-        console.log(error);
+        errorElement.textContent = "No result"
     }
-    
 })
+
+
