@@ -365,4 +365,8 @@ body {
         column-gap: 37px;
         padding: 48px;
     }
+    .error {
+        margin-left: auto;
+        font-size: 16px;
+    }
 }
