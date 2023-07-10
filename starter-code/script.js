@@ -21,6 +21,7 @@ const twitter = document.querySelector("#twitter");
 const company = document.querySelector("#company");
 const errorElement = document.querySelector(".error");
 
+
 const octocat = {
     avatar_url: "https://avatars.githubusercontent.com/u/583231?v=4",
     bio: null,
@@ -80,12 +81,14 @@ const displayInfo = (user) => {
     following.textContent = user.following;
     if(user.location) {
         city.textContent = user.location;
+        city.parentElement.style.opacity = 1;
     } else {
         city.textContent = "Not Available";
         city.parentElement.style.opacity = 0.5;
     }
     if(user.twitter_username) {
         twitter.textContent = twitter_username;
+        twitter.parentElement.style.opacity = 1;
     } else {
         twitter.textContent = "Not Available";
         twitter.parentElement.style.opacity = 0.5;
@@ -93,6 +96,7 @@ const displayInfo = (user) => {
     if(user.blog) {
         blog.textContent = user.blog;
         blog.href = user.blog;
+        blog.parentElement.style.opacity = 1;
     } else {
         blog.textContent = "Not Available";
         blog.href = "#";
@@ -100,6 +104,7 @@ const displayInfo = (user) => {
     }
     if(user.company) {
         company.textContent = user.company;
+        company.parentElement.style.opacity = 1;
     } else {
         company.textContent = "Not Available";
         company.parentElement.style.opacity = 0.5;
@@ -107,8 +112,7 @@ const displayInfo = (user) => {
 }
 
 displayInfo(octocat);
-
-const flipTheme = (theme) => {
+    const flipTheme = (theme) => {
     if(theme === "dark") {
         moon.style.display = "none";
         sun.style.display = "block";
@@ -123,6 +127,9 @@ const flipTheme = (theme) => {
     themeText.classList.toggle("dark");
     input.classList.toggle("dark");
     Array.from(cards).forEach(card => card.classList.toggle("dark"));
+    blog.classList.toggle("dark");
+    login.style.color = "var(--electric)";
+    stats.classList.toggle("dark");
 };
 
 moon.addEventListener("click", () => flipTheme("dark"));
